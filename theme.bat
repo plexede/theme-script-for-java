@@ -43,7 +43,6 @@ echo theme applied
 
 echo updating script
 cd %USERPROFILE%\Downloads\
-mkdir theme-script-for-java
+git clone https://github.com/plexede/theme-script-for-java
 cd theme-script-for-java
-git pull https://github.com/plexede/theme-script-for-java
-cp theme.bat \\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Scripts\theme2.bat
+copy theme.bat \\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Scripts\theme2.bat
