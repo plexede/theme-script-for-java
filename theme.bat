@@ -1,7 +1,5 @@
 @echo off
 
-rem start code \\studentdatasvr.wayneschools.net\studentdata$\valley\14141566\Java\Scripts\theme.bat
-
 rem automatically theme desktop after wipe
 
 rem To set Windows to Dark Mode
@@ -13,8 +11,16 @@ rem show file extensions in file explorer
     taskkill /f /im explorer.exe
     start explorer
 
-start explorer \\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Work
+rem ensure remote folders exist
+if not exist "\\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Scripts\" (
+    mkdir "\\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Scripts"
+)
+if not exist "\\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Work\" (
+    mkdir "\\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Work"
+    echo "This is your Java Work folder. Place your Java projects here." > "\\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Work\readme.txt"
+)
 
+start explorer \\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Work
 
 rem open classroom
     start chrome "https://classroom.google.com/c/Nzc1NDMxNjY3MDM2"
@@ -22,6 +28,7 @@ rem open classroom
 rem install preference tools
     winget install --id=Microsoft.VisualStudioCode  -e --accept-source-agreements
     powershell start '~\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Visual Studio Code\Visual Studio Code.lnk' \\studentdatasvr.wayneschools.net\studentdata$\valley\$env:UserName\Java\
+    cp '~\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Visual Studio Code\Visual Studio Code.lnk' '%USERPROFILE%\Desktop\Visual Studio Code.lnk'
 
 rem winget install --id=Seelen.SeelenUI  -e
     winget install Microsoft.PowerToys
@@ -39,10 +46,17 @@ rem install godot
     echo start %USERPROFILE%\GoDot\Godot_v4.5-stable_win64.exe>>%USERPROFILE%\Desktop\Godot.bat
     start %USERPROFILE%\GoDot\Godot_v4.5-stable_win64.exe
 
-echo theme applied
+echo Theme applied.
 
-echo updating script
+echo Updating script...
 cd %USERPROFILE%\Downloads\
 git clone https://github.com/plexede/theme-script-for-java
 cd theme-script-for-java
-copy theme.bat \\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Scripts\theme2.bat
+copy theme.bat \\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Scripts\theme.bat
+echo Update complete.
+
+@REM rem temporary map + change to UNC, do work, then restore
+@REM pushd \\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Work
+@REM mkdir Scripts
+@REM copy theme.bat ".\Scripts\theme.bat"
+@REM popd
