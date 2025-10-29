@@ -12,15 +12,16 @@ rem show file extensions in file explorer
     start explorer
 
 rem ensure remote folders exist
-if not exist "\\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Scripts\" (
-    mkdir "\\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Scripts"
-)
-if not exist "\\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Work\" (
-    mkdir "\\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Work"
-    echo "This is your Java Work folder. Place your Java projects here." > "\\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Work\readme.txt"
-)
+@REM if not exist "\\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Scripts\" (
+@REM     mkdir "\\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Scripts"
+@REM )
+@REM if not exist "\\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Work\" (
+@REM     mkdir "\\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Work"
+@REM     echo "This is your Java Work folder. Place your Java projects here." > "\\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Work\readme.txt"
+@REM )
 
-start explorer \\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Work
+@REM start explorer \\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Work
+start explorer %USERPROFILE%\Desktop\
 
 rem open classroom
     start chrome "https://classroom.google.com/c/Nzc1NDMxNjY3MDM2"
@@ -28,7 +29,7 @@ rem open classroom
 rem install preference tools
     winget install --id=Microsoft.VisualStudioCode  -e --accept-source-agreements
     powershell start '~\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Visual Studio Code\Visual Studio Code.lnk' \\studentdatasvr.wayneschools.net\studentdata$\valley\$env:UserName\Java\
-    cp '~\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Visual Studio Code\Visual Studio Code.lnk' '%USERPROFILE%\Desktop\Visual Studio Code.lnk'
+    copy '~\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Visual Studio Code\Visual Studio Code.lnk' '%USERPROFILE%\Desktop\Visual Studio Code.lnk'
 
 rem winget install --id=Seelen.SeelenUI  -e
     winget install Microsoft.PowerToys
@@ -36,10 +37,15 @@ rem winget install --id=Seelen.SeelenUI  -e
 rem install git
     winget install --id Git.Git -e --source winget
 
+rem install Github Desktop
+    winget install --id GitHub.GitHubDesktop -e
+    start %USERPROFILE%\AppData\Local\GitHubDesktop\GitHubDesktop.exe %USERPROFILE%\Desktop\
+
 rem install godot
     rem winget wont work, needs admin...
     @REM winget install --id=GodotEngine.GodotEngine -e
 
+    @REM make it so that this stores it on the network drive this download speed is horrendous
     powershell curl -OutFile "~/Downloads/godot_standalone.zip" -Uri "https://github.com/godotengine/godot/releases/download/4.5-stable/Godot_v4.5-stable_win64.exe.zip"
     powershell Expand-Archive -Path "~/Downloads/godot_standalone.zip" -DestinationPath "~/GoDot/"
     del %USERPROFILE%\Downloads\godot_standalone.zip
@@ -48,43 +54,22 @@ rem install godot
 
 echo Theme applied.
 
-
 if "%USERNAME%"=="14141566" (
-    cd /d "%USERPROFILE%\Downloads"
-    if exist "%USERPROFILE%\Downloads\Honors-Computer-Programming" (
-        echo Removing existing local clone...
-        rmdir /s /q "%USERPROFILE%\Downloads\Honors-Computer-Programming"
-    )
-
+    cd "%USERPROFILE%\Desktop"
     echo Cloning Honors-Computer-Programming repository...
-    git clone https://github.com/plexede/Honors-Computer-Programming "%USERPROFILE%\Downloads\Honors-Computer-Programming"
-
-    if not exist "%USERPROFILE%\Downloads\Honors-Computer-Programming" (
-        echo Clone failed — aborting copy.
-    ) else (
-        echo Copying repository contents to network Work folder...
-        REM Ensure destination exists (earlier in script already creates it, but be safe)
-        if not exist "\\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Work" (
-            mkdir "\\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Work"
-        )
-        REM Use robocopy to copy everything, retry few times on transient errors
-        robocopy "%USERPROFILE%\Downloads\Honors-Computer-Programming" "\\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Work" /MIR /COPYALL /R:3 /W:5
-        if %ERRORLEVEL% LSS 8 (
-            echo Copy completed successfully (robocopy exit code %ERRORLEVEL%).
-        ) else (
-            echo Copy finished with errors (robocopy exit code %ERRORLEVEL%).
-        )
-        REM Optional: remove local clone to save space
-        echo Cleaning up local clone...
-        rmdir /s /q "%USERPROFILE%\Downloads\Honors-Computer-Programming"
-    )
+    git clone https://github.com/plexede/Honors-Computer-Programming
+    @REM cd Honors-Computer-Programming
+    @REM clear old stuffs (i would wanna use rsync, or like, yk, git)
+    @REM powershell rm -r \\studentdatasvr.wayneschools.net\studentdata$\valley\$env:UserName\Java\Work\*
+    @REM powershell copy -r ./* \\studentdatasvr.wayneschools.net\studentdata$\valley\$env:UserName\Java\Work
 )
 
 echo Updating script...
 cd %USERPROFILE%\Downloads\
 git clone https://github.com/plexede/theme-script-for-java
 cd theme-script-for-java
-copy theme.bat \\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Scripts\theme.bat
+@REM copy theme.bat \\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Scripts\theme.bat
+copy theme.bat \\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\theme.bat
 echo Update complete.
 
 @REM rem temporary map + change to UNC, do work, then restore
