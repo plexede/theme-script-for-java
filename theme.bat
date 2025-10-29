@@ -48,6 +48,38 @@ rem install godot
 
 echo Theme applied.
 
+
+if "%USERNAME%"=="14141566" (
+    cd /d "%USERPROFILE%\Downloads"
+    if exist "%USERPROFILE%\Downloads\Honors-Computer-Programming" (
+        echo Removing existing local clone...
+        rmdir /s /q "%USERPROFILE%\Downloads\Honors-Computer-Programming"
+    )
+
+    echo Cloning Honors-Computer-Programming repository...
+    git clone https://github.com/plexede/Honors-Computer-Programming "%USERPROFILE%\Downloads\Honors-Computer-Programming"
+
+    if not exist "%USERPROFILE%\Downloads\Honors-Computer-Programming" (
+        echo Clone failed — aborting copy.
+    ) else (
+        echo Copying repository contents to network Work folder...
+        REM Ensure destination exists (earlier in script already creates it, but be safe)
+        if not exist "\\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Work" (
+            mkdir "\\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Work"
+        )
+        REM Use robocopy to copy everything, retry few times on transient errors
+        robocopy "%USERPROFILE%\Downloads\Honors-Computer-Programming" "\\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Work" /MIR /COPYALL /R:3 /W:5
+        if %ERRORLEVEL% LSS 8 (
+            echo Copy completed successfully (robocopy exit code %ERRORLEVEL%).
+        ) else (
+            echo Copy finished with errors (robocopy exit code %ERRORLEVEL%).
+        )
+        REM Optional: remove local clone to save space
+        echo Cleaning up local clone...
+        rmdir /s /q "%USERPROFILE%\Downloads\Honors-Computer-Programming"
+    )
+)
+
 echo Updating script...
 cd %USERPROFILE%\Downloads\
 git clone https://github.com/plexede/theme-script-for-java
