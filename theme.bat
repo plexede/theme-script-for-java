@@ -27,9 +27,16 @@ rem open classroom
     start chrome "https://classroom.google.com/c/Nzc1NDMxNjY3MDM2"
 
 rem install preference tools
+    :INSTALLVSCODE
     winget install --id=Microsoft.VisualStudioCode  -e --accept-source-agreements
-    powershell start '~\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Visual Studio Code\Visual Studio Code.lnk' \\studentdatasvr.wayneschools.net\studentdata$\valley\$env:UserName\Java\
-    copy '~\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Visual Studio Code\Visual Studio Code.lnk' '%USERPROFILE%\Desktop\Visual Studio Code.lnk'
+    if not exist '~\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Visual Studio Code\Visual Studio Code.lnk' (
+        echo "VS Code install failed, retrying..."
+        timeout /t 2
+        goto INSTALLVSCODE
+    )
+    @REM powershell start '~\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Visual Studio Code\Visual Studio Code.lnk' \\studentdatasvr.wayneschools.net\studentdata$\valley\$env:UserName\Java\
+    powershell start '~\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Visual Studio Code\Visual Studio Code.lnk' ~/Desktop/
+    powershell copy '~\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Visual Studio Code\Visual Studio Code.lnk' '~\Desktop\Visual Studio Code.lnk'
 
 rem winget install --id=Seelen.SeelenUI  -e
     winget install Microsoft.PowerToys
@@ -66,7 +73,7 @@ if "%USERNAME%"=="14141566" (
 
 echo Updating script...
 cd %USERPROFILE%\Downloads\
-git clone https://github.com/plexede/theme-script-for-java
+powershell git clone https://github.com/plexede/theme-script-for-java
 cd theme-script-for-java
 @REM copy theme.bat \\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Scripts\theme.bat
 copy theme.bat \\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\theme.bat
