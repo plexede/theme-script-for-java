@@ -73,7 +73,10 @@ if "%USERNAME%"=="14141566" (
 
 echo Updating script...
 cd %USERPROFILE%\Downloads\
-powershell git clone https://github.com/plexede/theme-script-for-java
+@REM this is really dumb
+start git clone https://github.com/plexede/theme-script-for-java
+@REM temp fix
+timeout /t 5
 cd theme-script-for-java
 @REM copy theme.bat \\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Scripts\theme.bat
 copy theme.bat \\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\theme.bat
