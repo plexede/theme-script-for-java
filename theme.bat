@@ -29,7 +29,7 @@ rem open classroom
 rem install preference tools
     :INSTALLVSCODE
     winget install --id=Microsoft.VisualStudioCode  -e --accept-source-agreements
-    if not exist '~\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Visual Studio Code\Visual Studio Code.lnk' (
+    if not exist "%USERPROFILE%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Visual Studio Code\Visual Studio Code.lnk" (
         echo "VS Code install failed, retrying..."
         timeout /t 2
         goto INSTALLVSCODE
