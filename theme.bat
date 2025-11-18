@@ -35,7 +35,7 @@ rem install preference tools
         goto INSTALLVSCODE
     )
     @REM powershell start '~\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Visual Studio Code\Visual Studio Code.lnk' \\studentdatasvr.wayneschools.net\studentdata$\valley\$env:UserName\Java\
-    powershell start '~\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Visual Studio Code\Visual Studio Code.lnk' ~/Desktop/
+    powershell start '~\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Visual Studio Code\Visual Studio Code.lnk'
     powershell copy '~\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Visual Studio Code\Visual Studio Code.lnk' '~\Desktop\Visual Studio Code.lnk'
 
 rem winget install --id=Seelen.SeelenUI  -e
