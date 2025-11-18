@@ -46,7 +46,7 @@ rem install git
 
 rem install Github Desktop
     winget install --id GitHub.GitHubDesktop -e
-    start %USERPROFILE%\AppData\Local\GitHubDesktop\GitHubDesktop.exe %USERPROFILE%\Desktop\
+    @REM start %USERPROFILE%\AppData\Local\GitHubDesktop\GitHubDesktop.exe %USERPROFILE%\Desktop\
 
 rem install godot
     rem winget wont work, needs admin...
@@ -57,7 +57,7 @@ rem install godot
     powershell Expand-Archive -Path "~/Downloads/godot_standalone.zip" -DestinationPath "~/GoDot/"
     del %USERPROFILE%\Downloads\godot_standalone.zip
     echo start %USERPROFILE%\GoDot\Godot_v4.5-stable_win64.exe>>%USERPROFILE%\Desktop\Godot.bat
-    start %USERPROFILE%\GoDot\Godot_v4.5-stable_win64.exe
+    @REM start %USERPROFILE%\GoDot\Godot_v4.5-stable_win64.exe
 
 echo Theme applied.
 
