@@ -53,10 +53,14 @@ rem install godot
     @REM winget install --id=GodotEngine.GodotEngine -e
 
     @REM make it so that this stores it on the network drive this download speed is horrendous
-    powershell curl -OutFile "~/Downloads/godot_standalone.zip" -Uri "https://github.com/godotengine/godot/releases/download/4.5-stable/Godot_v4.5-stable_win64.exe.zip"
-    powershell Expand-Archive -Path "~/Downloads/godot_standalone.zip" -DestinationPath "~/GoDot/"
-    del %USERPROFILE%\Downloads\godot_standalone.zip
-    echo start %USERPROFILE%\GoDot\Godot_v4.5-stable_win64.exe>>%USERPROFILE%\Desktop\Godot.bat
+
+    @REM put this off for now
+    @REM powershell curl -OutFile "~/Downloads/godot_standalone.zip" -Uri "https://github.com/godotengine/godot/releases/download/4.5-stable/Godot_v4.5-stable_win64.exe.zip"
+    @REM powershell Expand-Archive -Path "~/Downloads/godot_standalone.zip" -DestinationPath "~/GoDot/"
+    @REM del %USERPROFILE%\Downloads\godot_standalone.zip
+    @REM echo start %USERPROFILE%\GoDot\Godot_v4.5-stable_win64.exe>>%USERPROFILE%\Desktop\Godot.bat
+    
+    
     @REM start %USERPROFILE%\GoDot\Godot_v4.5-stable_win64.exe
 
 echo Theme applied.
@@ -74,13 +78,14 @@ if "%USERNAME%"=="14141566" (
 echo Updating script...
 cd %USERPROFILE%\Downloads\
 @REM this is really dumb
-start git clone https://github.com/plexede/theme-script-for-java
+powershell git clone https://github.com/plexede/theme-script-for-java
 @REM temp fix
 timeout /t 5
 cd theme-script-for-java
 @REM copy theme.bat \\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Scripts\theme.bat
 copy theme.bat \\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\theme.bat
 echo Update complete.
+timeout /t 10
 
 @REM rem temporary map + change to UNC, do work, then restore
 @REM pushd \\studentdatasvr.wayneschools.net\studentdata$\valley\%USERNAME%\Java\Work
